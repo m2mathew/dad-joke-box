@@ -14,18 +14,18 @@ const Header = () => (
   </View>
 );
 
-
 const styles = StyleSheet.create({
   header: {
     backgroundColor: '#fafafa',
-    paddingVertical: 48,
     paddingHorizontal: 32,
+    paddingVertical: 48,
     shadowColor: '#000',
   },
   text: {
     fontSize: 32,
     fontWeight: '500',
     textAlign: 'center',
+    color: 'indigo',
   },
 });
 

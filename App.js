@@ -6,6 +6,7 @@
  * @flow
  */
 
+ // External Dependencies
 import React, {
   useState,
 } from 'react';
@@ -18,14 +19,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import axios from 'axios';
 
 // Internal helpers
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 
+// Local Dependencies
 import Header from './components/Header';
-import { grey } from 'ansi-colors';
+
 
 // Local Variables
 const boxRootStyles = {
@@ -41,10 +44,50 @@ const boxRootStyles = {
   justifyContent: 'center',
 };
 
+const sectionRootStyles = {
+  alignItems: 'center',
+  borderBottomColor: 'grey',
+  borderBottomWidth: StyleSheet.hairlineWidth,
+  borderTopColor: 'grey',
+  borderTopWidth: StyleSheet.hairlineWidth,
+  flex: 1,
+  height: '100%',
+  paddingVertical: 32,
+};
+
 
 // Component Definition
 const App = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentJoke, setCurrentJoke] = useState(false);
+
+  function handleSetIsLoading() {
+    if (isLoading) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }
+
+  function handleSetCurrentJoke(joke) {
+    setCurrentJoke(joke);
+  }
+
+  const getDadJokes = () => {
+    handleSetIsLoading()
+    axios({
+      method: 'get',
+      url: 'https://icanhazdadjoke.com/',
+      responseType: 'json',
+      headers: {
+        Accept: 'application/json',
+      },
+    })
+      .then((res) => {
+        console.log('res.data.joke', res.data.joke);
+        handleSetCurrentJoke(res.data.joke);
+      });
+  };
 
   return (
     <>
@@ -63,7 +106,8 @@ const App = () => {
           <View style={styles.section}>
             <TouchableOpacity
               disabled={isLoading}
-              onPress={() => console.log('button pressed')}
+              // onPress={() => console.log('button pressed')}
+              onPress={getDadJokes}
               style={isLoading ? styles.loadingBox : styles.box}
             >
               <Text style={styles.buttonText}>
@@ -71,6 +115,13 @@ const App = () => {
               </Text>
             </TouchableOpacity>
           </View>
+          {currentJoke && (
+            <View style={styles.jokeSection}>
+              <Text style={styles.jokeText}>
+                {currentJoke}
+              </Text>
+            </View>
+          )}
         </ScrollView>
       </SafeAreaView>
     </>
@@ -78,16 +129,7 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  section: {
-    alignItems: 'center',
-    borderBottomColor: 'grey',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderTopColor: 'grey',
-    borderTopWidth: StyleSheet.hairlineWidth,
-    flex: 1,
-    height: '100%',
-    paddingVertical: 32,
-  },
+  section: sectionRootStyles,
   box: boxRootStyles,
   loadingBox: {
     ...boxRootStyles,
@@ -111,6 +153,16 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 24,
     fontWeight: '500',
+    textAlign: 'center',
+  },
+  jokeSection: {
+    ...sectionRootStyles,
+    backgroundColor: 'lavender',
+    paddingHorizontal: 36,
+    paddingVertical: 64,
+  },
+  jokeText: {
+    fontSize: 18,
     textAlign: 'center',
   },
 });
