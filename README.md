@@ -4,6 +4,7 @@ Hit the button, get a joke!
 
 ## Uses
 
-- React Native
+- `react-native`
+- `axios`
 
 ###### Built with :rocket: by [Mike Mathew](https://www.drumsensei.com)
