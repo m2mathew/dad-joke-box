@@ -6,14 +6,17 @@
  * @flow
  */
 
-import React from 'react';
+import React, {
+  useState,
+} from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
   ScrollView,
-  View,
-  Text,
   StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 // Internal helpers
@@ -22,10 +25,27 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import Header from './components/Header';
+import { grey } from 'ansi-colors';
+
+// Local Variables
+const boxRootStyles = {
+  backgroundColor: 'aliceblue',
+  borderColor: 'darkblue',
+  borderRadius: 4,
+  borderWidth: 2,
+  height: 150,
+  shadowColor: 'grey',
+  shadowOffset: { width: 3, height: 3, },
+  shadowOpacity: 0.5,
+  width: 150,
+  justifyContent: 'center',
+};
+
 
 // Component Definition
 const App = () => {
-  console.log('hello world!!');
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -41,7 +61,15 @@ const App = () => {
             </View>
           )}
           <View style={styles.section}>
-            <View style={styles.box}/>
+            <TouchableOpacity
+              disabled={isLoading}
+              onPress={() => console.log('button pressed')}
+              style={isLoading ? styles.loadingBox : styles.box}
+            >
+              <Text style={styles.buttonText}>
+                START
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -51,21 +79,19 @@ const App = () => {
 
 const styles = StyleSheet.create({
   section: {
+    alignItems: 'center',
+    borderBottomColor: 'grey',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderTopColor: 'grey',
+    borderTopWidth: StyleSheet.hairlineWidth,
     flex: 1,
     height: '100%',
-    alignItems: 'center',
     paddingVertical: 32,
   },
-  box: {
-    backgroundColor: 'aliceblue',
-    borderColor: 'darkblue',
-    borderRadius: 4,
-    borderWidth: 3,
-    height: 150,
-    width: 150,
-    shadowOffset: { width: 3, height: 3, },
-    shadowColor: 'grey',
-    shadowOpacity: 0.5,
+  box: boxRootStyles,
+  loadingBox: {
+    ...boxRootStyles,
+    backgroundColor: '#ddd',
   },
   scrollView: {
     backgroundColor: Colors.lighter,
@@ -81,6 +107,11 @@ const styles = StyleSheet.create({
     padding: 4,
     paddingRight: 12,
     textAlign: 'right',
+  },
+  buttonText: {
+    fontSize: 24,
+    fontWeight: '500',
+    textAlign: 'center',
   },
 });
 
