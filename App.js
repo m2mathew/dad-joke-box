@@ -61,20 +61,18 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentJoke, setCurrentJoke] = useState('');
 
-  function handleSetIsLoading() {
-    if (isLoading) {
-      setIsLoading(true);
-    } else {
-      setIsLoading(false);
-    }
+  function handleSetIsLoading(isLoading) {
+    setIsLoading(isLoading);
   }
 
   function handleSetCurrentJoke(joke) {
     setCurrentJoke(joke);
   }
 
+  console.log('is loading', isLoading);
+
   const getDadJokes = () => {
-    handleSetIsLoading()
+    handleSetIsLoading(true);
     axios({
       method: 'get',
       url: 'https://icanhazdadjoke.com/',
@@ -84,8 +82,8 @@ const App = () => {
       },
     })
       .then((res) => {
-        console.log('res.data.joke', res.data.joke);
         handleSetCurrentJoke(res.data.joke);
+        handleSetIsLoading(false);
       });
   };
 
@@ -106,7 +104,7 @@ const App = () => {
           <View style={styles.section}>
             <TouchableOpacity
               disabled={isLoading}
-              onPress={getDadJokes}
+              onPress={isLoading ? null : getDadJokes}
               style={isLoading ? styles.loadingBox : styles.box}
             >
               <Text style={styles.buttonText}>
