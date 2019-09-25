@@ -114,9 +114,11 @@ const App = () => {
           </View>
           {currentJoke !== '' && (
             <View style={styles.jokeSection}>
-              <Text style={styles.jokeText}>
-                {currentJoke}
-              </Text>
+              <View style={styles.innerJokeSection}>
+                <Text style={styles.jokeText}>
+                  {currentJoke}
+                </Text>
+              </View>
             </View>
           )}
         </ScrollView>
@@ -155,12 +157,23 @@ const styles = StyleSheet.create({
   jokeSection: {
     ...sectionRootStyles,
     backgroundColor: 'lavender',
-    paddingHorizontal: 36,
+    paddingHorizontal: 24,
     paddingVertical: 64,
+  },
+  innerJokeSection: {
+    backgroundColor: 'white',
+    padding: 32,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: 'dimgray',
+    shadowColor: 'grey',
+    shadowOffset: { width: 3, height: 3, },
+    shadowOpacity: 0.5,
   },
   jokeText: {
     fontSize: 18,
     textAlign: 'center',
+    lineHeight: 25,
   },
 });
 
