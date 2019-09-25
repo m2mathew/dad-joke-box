@@ -59,7 +59,7 @@ const sectionRootStyles = {
 // Component Definition
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [currentJoke, setCurrentJoke] = useState(false);
+  const [currentJoke, setCurrentJoke] = useState('');
 
   function handleSetIsLoading() {
     if (isLoading) {
@@ -106,16 +106,15 @@ const App = () => {
           <View style={styles.section}>
             <TouchableOpacity
               disabled={isLoading}
-              // onPress={() => console.log('button pressed')}
               onPress={getDadJokes}
               style={isLoading ? styles.loadingBox : styles.box}
             >
               <Text style={styles.buttonText}>
-                START
+                {!currentJoke ? 'START' : 'NEXT'}
               </Text>
             </TouchableOpacity>
           </View>
-          {currentJoke && (
+          {currentJoke !== '' && (
             <View style={styles.jokeSection}>
               <Text style={styles.jokeText}>
                 {currentJoke}
