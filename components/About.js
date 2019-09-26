@@ -7,10 +7,10 @@ import {
 } from 'react-native';
 
 // Component Definition
-const Header = () => (
+const About = () => (
   <View style={styles.header}>
     <Text style={styles.text}>
-      Dad Joke Box
+      About
     </Text>
   </View>
 );
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Header;
+export default About;

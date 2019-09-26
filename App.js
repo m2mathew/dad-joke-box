@@ -1,180 +1,29 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+// External Dependencies
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationNativeContainer } from '@react-navigation/native';
 
- // External Dependencies
-import React, {
-  useState,
-} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import axios from 'axios';
 
-// Internal helpers
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
-
-// Local Dependencies
-import Footer from './components/Footer';
-import Header from './components/Header';
+// Internal Dependencies
+import About from './components/About';
+import Home from './components/Home';
 
 // Local Variables
-const boxRootStyles = {
-  backgroundColor: 'aliceblue',
-  borderColor: 'darkblue',
-  borderRadius: 4,
-  borderWidth: 2,
-  height: 150,
-  shadowColor: 'grey',
-  shadowOffset: { width: 3, height: 3, },
-  shadowOpacity: 0.5,
-  width: 150,
-  justifyContent: 'center',
-};
-
-const sectionRootStyles = {
-  alignItems: 'center',
-  borderBottomColor: 'grey',
-  borderBottomWidth: StyleSheet.hairlineWidth,
-  borderTopColor: 'grey',
-  borderTopWidth: StyleSheet.hairlineWidth,
-  flex: 1,
-  height: '100%',
-  paddingVertical: 32,
-};
-
+const Stack = createStackNavigator();
 
 // Component Definition
-const App = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [currentJoke, setCurrentJoke] = useState('');
-
-  function handleSetIsLoading(isLoading) {
-    setIsLoading(isLoading);
-  }
-
-  function handleSetCurrentJoke(joke) {
-    setCurrentJoke(joke);
-  }
-
-  const getDadJokes = () => {
-    handleSetIsLoading(true);
-    return axios({
-      method: 'get',
-      url: 'https://icanhazdadjoke.com/',
-      responseType: 'json',
-      headers: {
-        Accept: 'application/json',
-      },
-    })
-      .then((res) => {
-        handleSetCurrentJoke(res.data.joke);
-        handleSetIsLoading(false);
-      });
-  };
-
+function App() {
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}
-        >
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.section}>
-            <TouchableOpacity
-              disabled={isLoading}
-              onPress={isLoading ? null : getDadJokes}
-              style={isLoading ? styles.loadingBox : styles.box}
-            >
-              <Text style={styles.buttonText}>
-                {!currentJoke ? 'START' : 'NEXT'}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          {currentJoke !== '' && (
-            <View style={styles.jokeSection}>
-              <View style={styles.innerJokeSection}>
-                <Text style={styles.jokeText}>
-                  {currentJoke}
-                </Text>
-              </View>
-            </View>
-          )}
-          <Footer />
-        </ScrollView>
-      </SafeAreaView>
-    </>
+    <NavigationNativeContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="About" component={About} options={{ title: 'Overview' }}/>
+        {/* <Stack.Screen name="Notifications" component={Notifications} />
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Settings" component={Settings} /> */}
+      </Stack.Navigator>
+    </NavigationNativeContainer>
   );
-};
-
-const styles = StyleSheet.create({
-  section: sectionRootStyles,
-  box: boxRootStyles,
-  loadingBox: {
-    ...boxRootStyles,
-    backgroundColor: '#ddd',
-  },
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-  buttonText: {
-    fontSize: 24,
-    fontWeight: '500',
-    textAlign: 'center',
-  },
-  jokeSection: {
-    ...sectionRootStyles,
-    flex: 2,
-    backgroundColor: 'lavender',
-    paddingHorizontal: 24,
-    paddingVertical: 64,
-  },
-  innerJokeSection: {
-    backgroundColor: 'white',
-    padding: 32,
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: 'dimgray',
-    shadowColor: 'grey',
-    shadowOffset: { width: 3, height: 3, },
-    shadowOpacity: 0.5,
-  },
-  jokeText: {
-    fontSize: 18,
-    textAlign: 'center',
-    lineHeight: 25,
-  },
-});
+}
 
 export default App;
