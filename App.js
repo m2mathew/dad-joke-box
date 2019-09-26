@@ -27,8 +27,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 // Local Dependencies
+import Footer from './components/Footer';
 import Header from './components/Header';
-
 
 // Local Variables
 const boxRootStyles = {
@@ -69,11 +69,9 @@ const App = () => {
     setCurrentJoke(joke);
   }
 
-  console.log('is loading', isLoading);
-
   const getDadJokes = () => {
     handleSetIsLoading(true);
-    axios({
+    return axios({
       method: 'get',
       url: 'https://icanhazdadjoke.com/',
       responseType: 'json',
@@ -121,6 +119,7 @@ const App = () => {
               </View>
             </View>
           )}
+          <Footer />
         </ScrollView>
       </SafeAreaView>
     </>
@@ -156,6 +155,7 @@ const styles = StyleSheet.create({
   },
   jokeSection: {
     ...sectionRootStyles,
+    flex: 2,
     backgroundColor: 'lavender',
     paddingHorizontal: 24,
     paddingVertical: 64,

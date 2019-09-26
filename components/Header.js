@@ -16,6 +16,7 @@ const Header = () => (
 
 const styles = StyleSheet.create({
   header: {
+    flex: 1,
     backgroundColor: '#fafafa',
     paddingHorizontal: 32,
     paddingVertical: 48,
